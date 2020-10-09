@@ -1,4 +1,4 @@
-# Java Samples
+# Java Samples  [![Build Status](https://travis-ci.com/fpineda3105/java-samples.svg?branch=main)](https://travis-ci.com/fpineda3105/java-samples)
 
 MY java Projects coding repository
 
