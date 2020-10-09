@@ -1,5 +1,8 @@
 language: java
 jdk: openjdk11
+cache:
+  directories:
+  - $HOME/.m2
 before_script: 
   - cd choreography-pattern
   - chmod a+x ./mvnw
