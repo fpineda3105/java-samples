@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS orders;
+CREATE TABLE orders (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    product_id INTEGER NOT NULL,
+    customer_id INTEGER NOT NULL,
+    quantity INTEGER NOT NULL,
+    status INTEGER NOT NULL,
+    CONSTRAINT PK_order PRIMARY KEY(id)
+);
