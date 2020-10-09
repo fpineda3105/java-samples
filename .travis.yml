@@ -1,3 +1,5 @@
 language: java
 jdk: openjdk11
-before_script: cd choreography-pattern
+before_script: 
+  - cd choreography-pattern
+  - chmod a+x ./mvnw
