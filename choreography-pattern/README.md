@@ -18,6 +18,7 @@ It's a backend order system using the Choreography Pattern
 ## Features
 - Place an Order
 - Commit an Order
+- Fetch an Order by id
 
 ## How to set up?
 ```
