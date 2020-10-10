@@ -17,6 +17,8 @@ It's a backend order system using the Choreography Pattern
 
 ## Features
 - Place an Order
+- Commit an Order
+- Fetch an Order by id
 
 ## How to set up?
 ```
@@ -49,4 +51,16 @@ mvn verify
     "customerId": 34234,
     "status": "PLACED"
     }
+   ```
+
+**Get** https://localhost:8080/orders/{id}
+
+**Response** 
+```{
+    "id": 1,
+    "quantity": 2,
+    "productId": 1,
+    "customerId": 34234,
+    "status": "COMMITTED"
+   }
    ```

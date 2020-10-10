@@ -1,5 +1,6 @@
 package com.fpineda.samples.choreographypattern.adapter.message;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -21,7 +22,7 @@ public class PlaceOrderEventListenerTest {
     @BeforeEach
     public void reset() {
         eventBus = new EventBus();
-        commitOrderUseCase =  spy(CommitOrderService.class);
+        commitOrderUseCase = mock(CommitOrderService.class);
         var eventListener = new PlaceOrderEventListener(commitOrderUseCase);
         eventListenerSpy = spy(eventListener);
         

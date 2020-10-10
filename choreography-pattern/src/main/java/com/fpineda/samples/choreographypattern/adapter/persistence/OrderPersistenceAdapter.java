@@ -7,41 +7,69 @@
  */
 package com.fpineda.samples.choreographypattern.adapter.persistence;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
 import com.fpineda.samples.choreographypattern.core.command.PlaceOrderCommand;
 import com.fpineda.samples.choreographypattern.core.model.Order;
+import com.fpineda.samples.choreographypattern.core.model.OrderStatus;
+import com.fpineda.samples.choreographypattern.core.ports.FetchOrderPort;
 import com.fpineda.samples.choreographypattern.core.ports.PlaceOrderPort;
+import com.fpineda.samples.choreographypattern.core.ports.UpdateOrderStatusPort;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class OrderPersistenceAdapter implements PlaceOrderPort {
+public class OrderPersistenceAdapter implements PlaceOrderPort, FetchOrderPort, UpdateOrderStatusPort {
 
-    private final SimpleJdbcInsert simpleJdbcInsert;    
+    private final SimpleJdbcInsert simpleJdbcInsert;
+    private final JdbcTemplate jdbcTemplate;
 
-    public OrderPersistenceAdapter(DataSource dataSource) {        
+    public OrderPersistenceAdapter(DataSource dataSource) {
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("orders")
                 .usingGeneratedKeyColumns("id");
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
     public Order placeOrder(PlaceOrderCommand command) {
         Order order = command.toOrder();
-        Map<String, Object> parameters = new HashMap<>(3);
+        Map<String, Object> parameters = new HashMap<>(4);
         parameters.put("customer_id", order.getCustomerId());
         parameters.put("quantity", order.getQuantity());
         parameters.put("product_id", order.getProductId());
         parameters.put("status", order.getStatus().getValue());
-        
-        long orderId = simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
-        log.info("order created: {}", orderId);
 
-        
+        long orderId = simpleJdbcInsert.executeAndReturnKey(parameters).longValue();        
         order.setId(orderId);
-        
+
         return order;
+    }
+
+    @Override
+    public Order fetch(long orderId) {
+        var sql = "select * from orders where id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[] {orderId}, new OrderMapper());
+    }
+
+    public class OrderMapper implements RowMapper<Order> {
+
+        @Override
+        public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return Order.builder().id(rs.getLong("id")).customerId(rs.getLong("customer_id"))
+                    .productId(rs.getLong("product_id")).quantity(rs.getInt("quantity"))
+                    .status(OrderStatus.from(rs.getInt("status"))).build();
+        }
+    }
+
+    @Override
+    public boolean updateStatus(long orderId, OrderStatus status) {
+        var sql = "UPDATE orders set status = ? where id = ?";        
+        return jdbcTemplate.update(sql, status.getValue(), orderId) == 1;        
     }
 
 }
