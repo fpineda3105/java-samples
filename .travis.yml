@@ -1,8 +1,16 @@
 language: java
 jdk: openjdk11
+addons:
+  sonarcloud:
+    organization: "fpineda3105"
+    token:
+      secure: "Tfan3iyRePLfcIyqDtC36lMsP1BshrhX8FuQmE6tdsoFmQM26kOMCZ2hdql1sO+SNFAmI342T8tfrCto5y4OrU1FFQP9T5RT7GeVffWcBFW/0pVvUeEQt1auL2/Xw/H24gD3WdGT4dw9Oo/WLxtXlCKTdLeH0muvmdgvOIO+ze1zrNC0VflIvfRgAZoQa082fEYI4Kf+2SIuPrJ9d2ANNbJPiFCoQdzONmL/1HmtSs2kmkk3Vu0x08Q94k4Nma4r2v7KIWmbR/V12yFMewciM6S9vA90l5mEl5m7zfjlNf9U/gxLkxtwYYIP4HHmMKh8Yz3jXFMI+E7sGpJvYFsixuou0V0MJj2i4j2gNJO3tXB7ITRCzq8BdBADZkYrElaAWM+JnfDs4gkrEVyclB7tldFyLUYlaQsHW7qSLcFlqx7lHDBnnKXEyP1t1asTmygaFRTqpMh8BJPpKewHtkz4XJQIKxg7pr8YEtiAkjxRgOdtku/MhsQ4P9Ggi+09n86o/2kbxNK/beNdjP6nL2rtI6OrP2+kpCiFneT9hI8bXiKM5+3FZ6xwAtEvIdqi9jWp86aSrboXM2m6qw0SyeSLsxvlVjRCsSN+GFTUglI85HL1LM0V+8bIWPJGLA1gFmFBwdTJdZgLhqnpJPgg5POHaiPfIq1JZy5WRLm1MrVwoeM=" 
 cache:
   directories:
   - $HOME/.m2
 before_script: 
   - cd choreography-pattern
   - chmod a+x ./mvnw
+script:
+  - ./mvnw verify -B
+  - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=fpineda3105_java-samples
