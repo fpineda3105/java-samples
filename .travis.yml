@@ -2,15 +2,17 @@ language: java
 jdk: openjdk11
 addons:
   sonarcloud:
-    organization: "fpineda3105"
+    organization: fpineda3105
     token:
-      secure: "Tfan3iyRePLfcIyqDtC36lMsP1BshrhX8FuQmE6tdsoFmQM26kOMCZ2hdql1sO+SNFAmI342T8tfrCto5y4OrU1FFQP9T5RT7GeVffWcBFW/0pVvUeEQt1auL2/Xw/H24gD3WdGT4dw9Oo/WLxtXlCKTdLeH0muvmdgvOIO+ze1zrNC0VflIvfRgAZoQa082fEYI4Kf+2SIuPrJ9d2ANNbJPiFCoQdzONmL/1HmtSs2kmkk3Vu0x08Q94k4Nma4r2v7KIWmbR/V12yFMewciM6S9vA90l5mEl5m7zfjlNf9U/gxLkxtwYYIP4HHmMKh8Yz3jXFMI+E7sGpJvYFsixuou0V0MJj2i4j2gNJO3tXB7ITRCzq8BdBADZkYrElaAWM+JnfDs4gkrEVyclB7tldFyLUYlaQsHW7qSLcFlqx7lHDBnnKXEyP1t1asTmygaFRTqpMh8BJPpKewHtkz4XJQIKxg7pr8YEtiAkjxRgOdtku/MhsQ4P9Ggi+09n86o/2kbxNK/beNdjP6nL2rtI6OrP2+kpCiFneT9hI8bXiKM5+3FZ6xwAtEvIdqi9jWp86aSrboXM2m6qw0SyeSLsxvlVjRCsSN+GFTUglI85HL1LM0V+8bIWPJGLA1gFmFBwdTJdZgLhqnpJPgg5POHaiPfIq1JZy5WRLm1MrVwoeM=" 
+      secure: GcBV1y1hWdvZvEHCj7AiqAndEpcCgDIjJ3rWwOxPw5h1BbrxbAGuF2bxzGbMDzwmnkg8Odto7EbQczkfMej4QDpVSMp22tUo0aQHIAmdd5AXlDYwHJNdE9NCCdoDMQJE8AJoTwtDKu6m24WBffWMrPeViaxBSuQv9b42fvXtCrJwhjo+FEniWvV/4en4f4TJ/le/SnqT0Uz01AbPNhi/IP3/vMNJe0Go5k//JOpE/5fAGx8vXPGT6GnhXJE4n7mUoadEwCE3G/pDtVYpxplRyQJXgg5H2dLGx6DzNX9LhA5Y5cwxkKap0Rdzc3pcxNyh6+hPtrJ2CiXPrnfqdX7vBSgf11nc9OfRwsEyY++OVem4IeWqhKWVV5Y6YL9U/FfyI2Fdqukss0jWXjKg4XX1t9Dt2BhkakAk4BeBBKFz8oovu5fdK/uKbCqRKoU+uEMhfEwBkmp1AxJuW8yhA0xnG8IDWy1etmL45Jp5au7RVUyBGHTdYG8XpyPJ8018mqOfub02ESuV6eIfRBLIzdkwFToOANKSUA9DZLYj3btypLK9Nf9yRanaGO1sjlSlFR0Vj2VWFQvQQYHaq8Kco/9w20euZ2xotiR3kwOnrPLeDenXpPtpbCv0V8TZKFIRHbszSSGJiO3SkKWnqv4QrLz5maYtvOERJIPm7l2dZbgO4HA=
 cache:
   directories:
-  - $HOME/.m2
-before_script: 
-  - cd choreography-pattern
-  - chmod a+x ./mvnw
+  - "$HOME/.m2"
+before_script:
+- cd choreography-pattern
+- chmod a+x ./mvnw
 script:
-  - ./mvnw verify -B
-  - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=fpineda3105_java-samples
+- "./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=fpineda3105_java-samples"
+env:
+  global:
+    secure: GcBV1y1hWdvZvEHCj7AiqAndEpcCgDIjJ3rWwOxPw5h1BbrxbAGuF2bxzGbMDzwmnkg8Odto7EbQczkfMej4QDpVSMp22tUo0aQHIAmdd5AXlDYwHJNdE9NCCdoDMQJE8AJoTwtDKu6m24WBffWMrPeViaxBSuQv9b42fvXtCrJwhjo+FEniWvV/4en4f4TJ/le/SnqT0Uz01AbPNhi/IP3/vMNJe0Go5k//JOpE/5fAGx8vXPGT6GnhXJE4n7mUoadEwCE3G/pDtVYpxplRyQJXgg5H2dLGx6DzNX9LhA5Y5cwxkKap0Rdzc3pcxNyh6+hPtrJ2CiXPrnfqdX7vBSgf11nc9OfRwsEyY++OVem4IeWqhKWVV5Y6YL9U/FfyI2Fdqukss0jWXjKg4XX1t9Dt2BhkakAk4BeBBKFz8oovu5fdK/uKbCqRKoU+uEMhfEwBkmp1AxJuW8yhA0xnG8IDWy1etmL45Jp5au7RVUyBGHTdYG8XpyPJ8018mqOfub02ESuV6eIfRBLIzdkwFToOANKSUA9DZLYj3btypLK9Nf9yRanaGO1sjlSlFR0Vj2VWFQvQQYHaq8Kco/9w20euZ2xotiR3kwOnrPLeDenXpPtpbCv0V8TZKFIRHbszSSGJiO3SkKWnqv4QrLz5maYtvOERJIPm7l2dZbgO4HA=
