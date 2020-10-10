@@ -15,7 +15,9 @@ import com.fpineda.samples.choreographypattern.core.ports.CommitProductStockPort
 import com.fpineda.samples.choreographypattern.core.ports.FetchProductPort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ProductPersistenceAdapter implements CommitProductStockPort, FetchProductPort {
 
     private final JdbcTemplate jdbcTemplate;
@@ -26,14 +28,15 @@ public class ProductPersistenceAdapter implements CommitProductStockPort, FetchP
 
     @Override
     public boolean commit(long productId, int quantity) {
-        var sql = "UPDATE products set inventory = inventory - ? where id = ?";
-        return jdbcTemplate.update(sql, quantity, productId) == 1;                        
+        var sql =
+                "UPDATE products set inventory = CASE WHEN (inventory - ? >= 0) THEN (inventory - ?) ELSE inventory END where id = ?";
+        return jdbcTemplate.update(sql, quantity, quantity, productId) == 1;                
     }
 
     @Override
     public Product fetch(long id) {
         var sql = "SELECT * FROM products where id = ?";
-        return jdbcTemplate.queryForObject(sql,new Object[]{id},new ProductMapper());        
+        return jdbcTemplate.queryForObject(sql, new Object[] {id}, new ProductMapper());
     }
 
     public class ProductMapper implements RowMapper<Product> {
@@ -42,7 +45,7 @@ public class ProductPersistenceAdapter implements CommitProductStockPort, FetchP
         public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
             return Product.builder().id(rs.getLong("id")).name(rs.getString("name"))
                     .description(rs.getString("description"))
-                    .inventoryQuantity(rs.getInt("inventory")).build();
+                    .inventoryQuantity(rs.getInt("inventory")).price(rs.getDouble("price")).build();
         }
 
     }

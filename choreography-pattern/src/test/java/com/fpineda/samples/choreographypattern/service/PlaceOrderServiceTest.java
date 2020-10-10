@@ -7,14 +7,14 @@
  */
 package com.fpineda.samples.choreographypattern.service;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import javax.sql.DataSource;
 import com.fpineda.samples.choreographypattern.adapter.persistence.OrderPersistenceAdapter;
 import com.fpineda.samples.choreographypattern.config.DatabaseInMemoryConfig;
 import com.fpineda.samples.choreographypattern.core.command.PlaceOrderCommand;
-import com.fpineda.samples.choreographypattern.core.event.PlaceOrderEvent;
+import com.fpineda.samples.choreographypattern.core.event.PlaceOrderEventSourced;
 import com.fpineda.samples.choreographypattern.core.model.Order;
 import com.fpineda.samples.choreographypattern.core.ports.PlaceOrderPort;
 import com.fpineda.samples.choreographypattern.core.usecase.PlaceOrderUseCase;
@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -36,16 +35,18 @@ public class PlaceOrderServiceTest {
     private PlaceOrderUseCase placeOrderUseCase;
     private PlaceOrderPort port;
 
-    @Spy
-    private EventBus eventBusSpy;
+    private PlaceOrderEventSourced eventSourcedSpy;
 
     @Autowired
     private DataSource datasource;
 
     @BeforeEach
     public void reset() {        
+        EventBus eventBus = new EventBus();
+        PlaceOrderEventSourced eventsourced = new PlaceOrderEventSourced(eventBus);
+        eventSourcedSpy = spy(eventsourced);
         port = new OrderPersistenceAdapter(datasource);
-        placeOrderUseCase = new PlaceOrderService(eventBusSpy, port);
+        placeOrderUseCase = new PlaceOrderService(eventSourcedSpy, port);
     }
 
     @Test
@@ -57,7 +58,7 @@ public class PlaceOrderServiceTest {
         Order result = placeOrderUseCase.placeOrder(command);
 
         Assertions.assertNotNull(result);
-        verify(eventBusSpy, times(1)).post(any(PlaceOrderEvent.class));
+        verify(eventSourcedSpy, times(1)).publish(result.getId());
 
     }
 
