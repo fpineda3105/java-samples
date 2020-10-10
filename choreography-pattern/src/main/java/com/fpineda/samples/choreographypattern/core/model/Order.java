@@ -10,10 +10,12 @@ package com.fpineda.samples.choreographypattern.core.model;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Builder
 @Setter
+@ToString
 public class Order {
 
     private long id;

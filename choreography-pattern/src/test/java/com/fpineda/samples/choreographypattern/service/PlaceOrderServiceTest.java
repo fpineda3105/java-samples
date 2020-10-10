@@ -12,6 +12,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import javax.sql.DataSource;
 import com.fpineda.samples.choreographypattern.adapter.persistence.OrderPersistenceAdapter;
+import com.fpineda.samples.choreographypattern.config.DatabaseInMemoryConfig;
 import com.fpineda.samples.choreographypattern.core.command.PlaceOrderCommand;
 import com.fpineda.samples.choreographypattern.core.event.PlaceOrderEvent;
 import com.fpineda.samples.choreographypattern.core.model.Order;
@@ -24,13 +25,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith({SpringExtension.class})
+@ContextConfiguration(classes = DatabaseInMemoryConfig.class)
 public class PlaceOrderServiceTest {
 
     private PlaceOrderUseCase placeOrderUseCase;
@@ -41,20 +41,6 @@ public class PlaceOrderServiceTest {
 
     @Autowired
     private DataSource datasource;
-
-    @TestConfiguration
-    static class PlaceOrderConfiguration {
-
-        @Bean
-        public DataSource dataSource() {
-            DriverManagerDataSource dataSource = new DriverManagerDataSource();
-            dataSource.setDriverClassName("org.h2.Driver");
-            dataSource.setUrl("jdbc:h2:mem:testdD;DB_CLOSE_DELAY=-1");
-            dataSource.setUsername("test");
-            dataSource.setPassword("test$123");
-            return dataSource;
-        }
-    }
 
     @BeforeEach
     public void reset() {        

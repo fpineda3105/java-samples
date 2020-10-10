@@ -12,12 +12,21 @@ import lombok.Getter;
 @Getter
 public enum OrderStatus {
     
-    PLACED(1), COMMITED(2);
+    PLACED(1), COMMITTED(2);
 
     private final int value;
 
     private OrderStatus(int value) {
         this.value = value;
+    }
+
+    public static OrderStatus from(int value) {
+        for (OrderStatus status : values()) {
+            if (status.value == value) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("OrderStatus not recognized from value: " + value);
     }
 
 }
