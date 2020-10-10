@@ -3,7 +3,7 @@
  * @email fernandopineda3105@gmail.com
  * @create date 2020-10-08 23:31:46
  * @modify date 2020-10-08 23:31:46
- * @desc [description]
+ * @desc Order Adapter for operatations on Order table
  */
 package com.fpineda.samples.choreographypattern.adapter.persistence;
 
@@ -21,9 +21,8 @@ import com.fpineda.samples.choreographypattern.core.ports.UpdateOrderStatusPort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 public class OrderPersistenceAdapter implements PlaceOrderPort, FetchOrderPort, UpdateOrderStatusPort {
 
     private final SimpleJdbcInsert simpleJdbcInsert;

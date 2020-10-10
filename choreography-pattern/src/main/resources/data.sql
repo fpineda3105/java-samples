@@ -1,5 +1,5 @@
 INSERT INTO products (name, description, price, inventory) VALUES 
-('product 1', 'Description 1', 10.50, 50),
+('product 1', 'Description 1', 10.50, 3),
 ('product 2', 'Description 2', 20.40, 50),
 ('product 3', 'Description 3', 30.60, 50),
 ('product 4', 'Description 4', 40.10, 50),

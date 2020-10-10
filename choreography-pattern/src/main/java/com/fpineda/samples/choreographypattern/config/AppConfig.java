@@ -12,6 +12,7 @@ import com.fpineda.samples.choreographypattern.adapter.message.PlaceOrderEventLi
 import com.fpineda.samples.choreographypattern.adapter.persistence.OrderPersistenceAdapter;
 import com.fpineda.samples.choreographypattern.adapter.persistence.ProductPersistenceAdapter;
 import com.fpineda.samples.choreographypattern.core.event.PlaceOrderEvent;
+import com.fpineda.samples.choreographypattern.core.event.PlaceOrderEventSourced;
 import com.fpineda.samples.choreographypattern.core.ports.FetchOrderPort;
 import com.fpineda.samples.choreographypattern.core.usecase.CommitOrderUseCase;
 import com.fpineda.samples.choreographypattern.core.usecase.FetchOrderUseCase;
@@ -63,7 +64,12 @@ public class AppConfig {
     }
 
     @Bean
+    public PlaceOrderEventSourced placeOrderEventSourced() {
+        return new PlaceOrderEventSourced(eventBus());
+    }
+
+    @Bean
     public PlaceOrderUseCase placeOrderUseCase() {
-        return new PlaceOrderService(eventBus(), orderPersistenceAdapter());
+        return new PlaceOrderService(placeOrderEventSourced(), orderPersistenceAdapter());
     }
 }
