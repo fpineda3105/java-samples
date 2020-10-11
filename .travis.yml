@@ -4,14 +4,14 @@ addons:
   sonarcloud:
     organization: fpineda3105
     token:
-      secure: "rVOhc8I98MFKvFzbpr6iNZMK0TzHfi87NkUcJR2YkeY78HyHnaKsIMHEmT8Y9BiCqK/zEyKslQY9NFVpVfPr3qWCKHo8doM3bxFaXi32jCRbtUX5Sd0FrDR3iWZCChfk8gZCl3AkLGYQu9QYOsJeB30yUFC1WK2DzB1MxAGvsly81UcmBvViNP5wJfI+eRHSmYbvGBQw98Md0bzJxkeB4XVukT9kTlq11XSIqMnOStx3WMcu3vGNNrqwNbAsEQCNj5mTEiCrep6lKDFseadjMuhwIm0DzMCrv+4EUFbJMUM5X8gklZ2be3eOFe8zDqY8TzrpRlyedUVoudN1LFTKmz8djEHBdGNjK9dtqDo+WIDoqP8fY1UTgXDsPpYofjy77V76l05E4PrT0iUol5duOJ9OmL4VCod7Dre+3m5JEN7Phn6koWDBXPL/SnRFkVDYXt7rddJzKxR7d3cPxwBG4vBmNjRmdoKx+/pi/VyjugTrWsdesgNA5GKaEASi7rxZitcR+Uqec8RJGC9noa/93NnJMcOtufdsuwj3gtW8Ay08ScNbTQd1/Zo9Ei3Fiu1PLh+gvodLs7+G7sve5WpWYIpws17Cb2PRvalMEssnW6zKyP710x/hN3yTNuD+zNH2QuxmAfB73KXLBW+xeWMUgpN3ntbwS0c5Se0XkzfRzH8="
+      secure: "BaTvtmtIF8YjEIueH4UHDhfjYbQdWp9tcqsSWgLnfFdiAR+DhzPMNbSdKkPRJ4IR2NOysm+b2atbRKad2VpCAAwVMWVuKQfYEI7jOuy6IQDNxWdw5aWHwrXp6n3EldXTxKBaTTmc4sZzGjNldctPRrck8A7hQL8CIUGJan0uHE04A31rXRPhuivV+o5zTmpNm3mpyEs7Kpt1MvOpANkUL1W7aRIg+fwC+vfgsDXej2jeAuRDyR+gSWdbJu1OvsEDrAQVG31E4NUQ9qRR+usPGBCrwUzHs9Bg0U6AG4fwh974InKJ4N5dtfYwIwVPHSBWyeDfgWVLC2KOQWF/JZ2UPy8SGElNI7NyEHZY/15/ia1BviD4zEIS/sqtmDSxETo8WlfVZznBys8+HTGPoxLWdLG6e9qxbikRRsdtR2lAw/wWf0iMnlYJOMJ71puWWoIfxmQhPeWsTxE2nCNASFKPT0Y3fHDLuxTteWLkAHo3uniL55mtuCYio6EEbOCwGOpJD5xo6zavI0K6PoewmK0TUNkuIIO0TqSeJ+b5TDFS3oMtEhX7rllzOQvQUowHoRL5iL3NHMoIhyYhLwbP46Mo35kk2VgidC86H81omeNu9uYQznrbRC/0lWiK7LcIWVhop4L1zKX28l/LR80767rJEE1YxQpFxFgHj0X78af7w6g="
 cache:
   directories:
-    - "$HOME/.m2"
-    - "$HOME/.sonar/cache"
+  - "$HOME/.m2"
+  - "$HOME/.sonar/cache"
 before_script:
-  - cd choreography-pattern
-  - chmod a+x ./mvnw
+- cd choreography-pattern
+- chmod a+x ./mvnw
 script:
-  - "./mvnw clean install sonar:sonar -Dsonar.projectKey=fpineda3105_java-samples"
+- "./mvnw clean install sonar:sonar -Dsonar.projectKey=fpineda3105_java-samples"
 
