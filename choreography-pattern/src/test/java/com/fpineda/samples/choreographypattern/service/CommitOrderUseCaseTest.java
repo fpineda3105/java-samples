@@ -29,7 +29,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith({SpringExtension.class})
 @ContextConfiguration(classes = DatabaseInMemoryConfig.class)
-public class CommitOrderUseCaseTest {
+class CommitOrderUseCaseTest {
 
     private CommitOrderUseCase commitOrderUseCase;
 
@@ -56,7 +56,7 @@ public class CommitOrderUseCaseTest {
     @Test
     @Sql(scripts = {"/order_table.sql", "/place_orders.sql", "/products_table.sql",
             "/populate_products.sql"})
-    public void shouldReturn_TheOrder_WithStatus_Commited() {
+    void shouldReturn_TheOrder_WithStatus_Commited() {
         Order result = commitOrderUseCase.commitOrder(1L);        
         Assertions.assertEquals(OrderStatus.COMMITTED, result.getStatus());
     }

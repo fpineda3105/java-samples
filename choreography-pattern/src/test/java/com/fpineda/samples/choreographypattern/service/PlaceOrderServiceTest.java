@@ -30,7 +30,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith({SpringExtension.class})
 @ContextConfiguration(classes = DatabaseInMemoryConfig.class)
-public class PlaceOrderServiceTest {
+class PlaceOrderServiceTest {
 
     private PlaceOrderUseCase placeOrderUseCase;
     private PlaceOrderPort port;
@@ -51,7 +51,7 @@ public class PlaceOrderServiceTest {
 
     @Test
     @Sql(scripts = {"/order_table.sql"})
-    public void placeOrderInDbAndEmitEvent() {
+    void placeOrderInDbAndEmitEvent() {
         PlaceOrderCommand command =
                 PlaceOrderCommand.builder().customerId(1234).productId(017345).quantity(2).build();
 

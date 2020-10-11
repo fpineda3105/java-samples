@@ -7,6 +7,7 @@
  */
 package com.fpineda.samples.choreographypattern;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,6 +16,7 @@ class ChoreographyPatternApplicationTests {
 
 	@Test
 	void contextLoads() {
+		Assertions.assertTrue(true);
 	}
 
 }
