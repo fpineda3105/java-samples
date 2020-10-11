@@ -11,7 +11,7 @@ import com.google.common.eventbus.EventBus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PlaceOrderEventListenerTest {
+class PlaceOrderEventListenerTest {
   
     private EventBus eventBus;
 
@@ -20,7 +20,7 @@ public class PlaceOrderEventListenerTest {
     private EventListener<PlaceOrderEvent> eventListenerSpy;
 
     @BeforeEach
-    public void reset() {
+    void reset() {
         eventBus = new EventBus();
         commitOrderUseCase = mock(CommitOrderService.class);
         var eventListener = new PlaceOrderEventListener(commitOrderUseCase);
@@ -30,7 +30,7 @@ public class PlaceOrderEventListenerTest {
     }
 
     @Test
-    public void onPlaceOrderEventShouldHandle() {
+    void onPlaceOrderEventShouldHandle() {
         PlaceOrderEvent event = new PlaceOrderEvent(123);
         eventBus.post(event);
         verify(eventListenerSpy, times(1)).handleEvent(event);

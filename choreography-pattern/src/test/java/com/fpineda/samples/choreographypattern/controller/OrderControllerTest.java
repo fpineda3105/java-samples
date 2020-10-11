@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @WebMvcTest(OrderRestContoller.class)
-public class OrderControllerTest {
+class OrderControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -52,7 +52,7 @@ public class OrderControllerTest {
     }
 
     @Test
-    public void should_placeOrder() throws Exception {
+    void should_placeOrder() throws Exception {
         // Prepare data
         Order order = Order.builder().id(231).quantity(5).customerId(927333444).productId(1).status(OrderStatus.PLACED).build();
         OrderRequest request = OrderRequest.builder().productId(927333444).quantity(5).build();
@@ -67,7 +67,7 @@ public class OrderControllerTest {
     }
 
     @Test
-    public void should_fetchOrder_ById() throws Exception {
+    void should_fetchOrder_ById() throws Exception {
         // Prepare data
         long idExpected = 213L;
         Order order = Order.builder().id(idExpected).quantity(5).customerId(927333444).productId(1).status(OrderStatus.COMMITTED).build();

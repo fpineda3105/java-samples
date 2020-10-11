@@ -23,21 +23,20 @@ public class CommitOrderService implements CommitOrderUseCase {
         Order order = fetchOrderPort.fetch(orderId);
         Product product = fetchProduct(order.getProductId());
 
-        if (product.isInStockForQuantity(order.getQuantity())) {            
-            if (isProductCommited(product.getId(),order.getQuantity())) {
-                updateOrderStatus(order.getId(),OrderStatus.COMMITTED);
-                order.setStatus(OrderStatus.COMMITTED);
-            }
+        if (product.isInStockForQuantity(order.getQuantity())
+                && isProductCommited(product.getId(), order.getQuantity())) {
+            updateOrderStatus(order.getId(), OrderStatus.COMMITTED);
+            order.setStatus(OrderStatus.COMMITTED);
         }
-        
+
         return order;
-    }   
+    }
 
     private Product fetchProduct(long id) {
         return fetchProductPort.fetch(id);
     }
 
-    private boolean isProductCommited(long id,int quantity) {
+    private boolean isProductCommited(long id, int quantity) {
         return commitProductPort.commit(id, quantity);
     }
 
