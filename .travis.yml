@@ -1,8 +1,17 @@
 language: java
 jdk: openjdk11
+addons:
+  sonarcloud:
+    organization: fpineda3105
+    token:
+      secure: "BaTvtmtIF8YjEIueH4UHDhfjYbQdWp9tcqsSWgLnfFdiAR+DhzPMNbSdKkPRJ4IR2NOysm+b2atbRKad2VpCAAwVMWVuKQfYEI7jOuy6IQDNxWdw5aWHwrXp6n3EldXTxKBaTTmc4sZzGjNldctPRrck8A7hQL8CIUGJan0uHE04A31rXRPhuivV+o5zTmpNm3mpyEs7Kpt1MvOpANkUL1W7aRIg+fwC+vfgsDXej2jeAuRDyR+gSWdbJu1OvsEDrAQVG31E4NUQ9qRR+usPGBCrwUzHs9Bg0U6AG4fwh974InKJ4N5dtfYwIwVPHSBWyeDfgWVLC2KOQWF/JZ2UPy8SGElNI7NyEHZY/15/ia1BviD4zEIS/sqtmDSxETo8WlfVZznBys8+HTGPoxLWdLG6e9qxbikRRsdtR2lAw/wWf0iMnlYJOMJ71puWWoIfxmQhPeWsTxE2nCNASFKPT0Y3fHDLuxTteWLkAHo3uniL55mtuCYio6EEbOCwGOpJD5xo6zavI0K6PoewmK0TUNkuIIO0TqSeJ+b5TDFS3oMtEhX7rllzOQvQUowHoRL5iL3NHMoIhyYhLwbP46Mo35kk2VgidC86H81omeNu9uYQznrbRC/0lWiK7LcIWVhop4L1zKX28l/LR80767rJEE1YxQpFxFgHj0X78af7w6g="
 cache:
   directories:
-  - $HOME/.m2
-before_script: 
-  - cd choreography-pattern
-  - chmod a+x ./mvnw
+  - "$HOME/.m2"
+  - "$HOME/.sonar/cache"
+before_script:
+- cd choreography-pattern
+- chmod a+x ./mvnw
+script:
+- "./mvnw clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=fpineda3105_java-samples"
+
