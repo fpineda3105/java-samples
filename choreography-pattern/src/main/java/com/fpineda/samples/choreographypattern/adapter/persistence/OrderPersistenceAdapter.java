@@ -13,11 +13,13 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
 import com.fpineda.samples.choreographypattern.core.command.PlaceOrderCommand;
+import com.fpineda.samples.choreographypattern.core.exception.OrderNotFoundException;
 import com.fpineda.samples.choreographypattern.core.model.Order;
 import com.fpineda.samples.choreographypattern.core.model.OrderStatus;
 import com.fpineda.samples.choreographypattern.core.ports.FetchOrderPort;
 import com.fpineda.samples.choreographypattern.core.ports.PlaceOrderPort;
 import com.fpineda.samples.choreographypattern.core.ports.UpdateOrderStatusPort;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -52,7 +54,11 @@ public class OrderPersistenceAdapter implements PlaceOrderPort, FetchOrderPort, 
     @Override
     public Order fetch(long orderId) {
         var sql = "select * from orders where id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[] {orderId}, new OrderMapper());
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[] {orderId}, new OrderMapper());    
+        } catch (EmptyResultDataAccessException e) {
+            throw new OrderNotFoundException();
+        }      
     }
 
     public class OrderMapper implements RowMapper<Order> {
