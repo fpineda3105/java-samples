@@ -1,7 +1,7 @@
 package com.fpineda.samples.choreographypattern.adapter.persistence;
 
 import javax.sql.DataSource;
-import com.fpineda.samples.choreographypattern.config.DatabaseInMemoryConfigTest;
+import com.fpineda.samples.choreographypattern.config.DatabaseInMemoryConfig;
 import com.fpineda.samples.choreographypattern.core.exception.OrderNotFoundException;
 import com.fpineda.samples.choreographypattern.core.model.Order;
 import com.fpineda.samples.choreographypattern.core.model.OrderStatus;
@@ -16,8 +16,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {DatabaseInMemoryConfigTest.class})
-public class FetchOrderPortTest {
+@ContextConfiguration(classes = {DatabaseInMemoryConfig.class})
+class FetchOrderPortTest {
       
     private FetchOrderPort fetchOrderPort;
 

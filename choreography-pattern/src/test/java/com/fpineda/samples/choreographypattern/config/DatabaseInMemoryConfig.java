@@ -15,7 +15,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @TestConfiguration
-public class DatabaseInMemoryConfigTest {
+public class DatabaseInMemoryConfig {
 
     @Bean
     public DataSource dataSource() {

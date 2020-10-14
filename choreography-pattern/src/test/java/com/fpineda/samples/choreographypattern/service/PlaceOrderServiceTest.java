@@ -12,7 +12,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import javax.sql.DataSource;
 import com.fpineda.samples.choreographypattern.adapter.persistence.OrderPersistenceAdapter;
-import com.fpineda.samples.choreographypattern.config.DatabaseInMemoryConfigTest;
+import com.fpineda.samples.choreographypattern.config.DatabaseInMemoryConfig;
 import com.fpineda.samples.choreographypattern.core.command.PlaceOrderCommand;
 import com.fpineda.samples.choreographypattern.core.event.PlaceOrderEventSourced;
 import com.fpineda.samples.choreographypattern.core.model.Order;
@@ -29,7 +29,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = DatabaseInMemoryConfigTest.class)
+@ContextConfiguration(classes = DatabaseInMemoryConfig.class)
 class PlaceOrderServiceTest {
 
     private PlaceOrderUseCase placeOrderUseCase;
