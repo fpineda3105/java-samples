@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 public enum OrderStatus {
     
-    PLACED(1), COMMITTED(2);
+    PLACED(1), COMMITTED(2), PAID(3);
 
     private final int value;
 

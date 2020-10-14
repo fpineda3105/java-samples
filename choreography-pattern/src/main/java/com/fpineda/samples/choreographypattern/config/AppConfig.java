@@ -7,18 +7,24 @@
  */
 package com.fpineda.samples.choreographypattern.config;
 
+import javax.annotation.PostConstruct;
+import com.fpineda.samples.choreographypattern.adapter.message.CommittedOrderEventListener;
 import com.fpineda.samples.choreographypattern.adapter.message.EventListener;
 import com.fpineda.samples.choreographypattern.adapter.message.PlaceOrderEventListener;
 import com.fpineda.samples.choreographypattern.adapter.persistence.OrderPersistenceAdapter;
 import com.fpineda.samples.choreographypattern.adapter.persistence.ProductPersistenceAdapter;
+import com.fpineda.samples.choreographypattern.core.event.CommitOrderEventsourced;
+import com.fpineda.samples.choreographypattern.core.event.CommittedOrderEvent;
 import com.fpineda.samples.choreographypattern.core.event.PlaceOrderEvent;
 import com.fpineda.samples.choreographypattern.core.event.PlaceOrderEventSourced;
 import com.fpineda.samples.choreographypattern.core.ports.FetchOrderPort;
 import com.fpineda.samples.choreographypattern.core.usecase.CommitOrderUseCase;
 import com.fpineda.samples.choreographypattern.core.usecase.FetchOrderUseCase;
+import com.fpineda.samples.choreographypattern.core.usecase.PayOrderUseCase;
 import com.fpineda.samples.choreographypattern.core.usecase.PlaceOrderUseCase;
 import com.fpineda.samples.choreographypattern.service.CommitOrderService;
 import com.fpineda.samples.choreographypattern.service.FetchOrderService;
+import com.fpineda.samples.choreographypattern.service.PayOrderService;
 import com.fpineda.samples.choreographypattern.service.PlaceOrderService;
 import com.google.common.eventbus.EventBus;
 
@@ -36,15 +42,25 @@ public class AppConfig {
         this.databaseConfig = databaseConfig;
     }
 
+    @PostConstruct
+    public void init() {
+        eventBus().register(placeOrderListener());
+        eventBus().register(committedOrderListener());
+    }
+
     @Bean
     public EventBus eventBus() {
-        EventBus eventBus = new EventBus();
-        CommitOrderUseCase commitOrderUseCase = new CommitOrderService(orderPersistenceAdapter(),
-                productPersistenceAdapter(), productPersistenceAdapter(), orderPersistenceAdapter());
-        EventListener<PlaceOrderEvent> placeOrderListener =
-                new PlaceOrderEventListener(commitOrderUseCase);
-        eventBus.register(placeOrderListener);
-        return eventBus;
+        return new EventBus();                                                 
+    }
+
+    @Bean
+    public EventListener<PlaceOrderEvent> placeOrderListener(){
+        return new PlaceOrderEventListener(commitOrderUseCase());
+    }
+    
+    @Bean
+    public EventListener<CommittedOrderEvent> committedOrderListener(){
+        return new CommittedOrderEventListener(payOrderUseCase());
     }
 
     @Bean
@@ -71,5 +87,21 @@ public class AppConfig {
     @Bean
     public PlaceOrderUseCase placeOrderUseCase() {
         return new PlaceOrderService(placeOrderEventSourced(), orderPersistenceAdapter());
+    }
+
+    @Bean
+    public CommitOrderEventsourced commitOrderEventsourced() {
+        return new CommitOrderEventsourced(eventBus());
+    }
+
+    @Bean
+    public CommitOrderUseCase commitOrderUseCase() {
+        return new CommitOrderService(orderPersistenceAdapter(),
+        productPersistenceAdapter(), productPersistenceAdapter(), orderPersistenceAdapter(), commitOrderEventsourced());
+    }
+
+    @Bean
+    public PayOrderUseCase payOrderUseCase() {
+        return new PayOrderService(orderPersistenceAdapter(), orderPersistenceAdapter());
     }
 }

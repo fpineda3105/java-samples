@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ChoreographyPatternApplicationTests {
+class ChoreographyPatternApplicationTest {
 
 	@Test
 	void contextLoads() {

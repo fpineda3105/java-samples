@@ -10,7 +10,9 @@ package com.fpineda.samples.choreographypattern.config;
 import javax.sql.DataSource;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
 
 @TestConfiguration
 public class DatabaseInMemoryConfig {
@@ -23,5 +25,11 @@ public class DatabaseInMemoryConfig {
         dataSource.setUsername("test");
         dataSource.setPassword("test$123");
         return dataSource;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(){
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource());
+        return transactionManager;
     }
 }

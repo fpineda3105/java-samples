@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fpineda.samples.choreographypattern.adapter.web.OrderRestContoller;
 import com.fpineda.samples.choreographypattern.adapter.web.dto.OrderRequest;
+import com.fpineda.samples.choreographypattern.core.exception.OrderNotFoundException;
 import com.fpineda.samples.choreographypattern.core.model.Order;
 import com.fpineda.samples.choreographypattern.core.model.OrderStatus;
 import com.fpineda.samples.choreographypattern.core.usecase.FetchOrderUseCase;
@@ -79,6 +80,19 @@ class OrderControllerTest {
         mockMvc.perform(get("/order/" + idExpected).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.id").value(idExpected)).andExpect(jsonPath("$.status").value(OrderStatus.COMMITTED.name()));
         verify(fetchOrderService, times(1)).fetchOrder(idExpected);
+    }
+
+    @Test
+    void should_return_NotFoundException() throws Exception {
+        // prepare data
+        long orderId = 345L;
+        
+        //mocks
+        when(fetchOrderService.fetchOrder(orderId)).thenThrow(new OrderNotFoundException());
+
+        // Assert\
+        mockMvc.perform(get("/order/" + orderId).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
+
     }
 
 

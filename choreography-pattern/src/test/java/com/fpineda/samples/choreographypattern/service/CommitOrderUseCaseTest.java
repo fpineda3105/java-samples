@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import com.fpineda.samples.choreographypattern.adapter.persistence.OrderPersistenceAdapter;
 import com.fpineda.samples.choreographypattern.adapter.persistence.ProductPersistenceAdapter;
 import com.fpineda.samples.choreographypattern.config.DatabaseInMemoryConfig;
+import com.fpineda.samples.choreographypattern.core.event.CommitOrderEventsourced;
 import com.fpineda.samples.choreographypattern.core.model.Order;
 import com.fpineda.samples.choreographypattern.core.model.OrderStatus;
 import com.fpineda.samples.choreographypattern.core.ports.CommitProductStockPort;
@@ -18,6 +19,7 @@ import com.fpineda.samples.choreographypattern.core.ports.FetchOrderPort;
 import com.fpineda.samples.choreographypattern.core.ports.FetchProductPort;
 import com.fpineda.samples.choreographypattern.core.ports.UpdateOrderStatusPort;
 import com.fpineda.samples.choreographypattern.core.usecase.CommitOrderUseCase;
+import com.google.common.eventbus.EventBus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,10 +49,11 @@ class CommitOrderUseCaseTest {
         CommitProductStockPort productStockPort = productPersistence;
         FetchProductPort fetchProductPort = productPersistence;
         UpdateOrderStatusPort orderStatusPort = orderPersistence;
+        var committedOrderEventSrc = new CommitOrderEventsourced(new EventBus());
 
         //Service
         commitOrderUseCase = new CommitOrderService(fetchOrder, productStockPort, fetchProductPort,
-                orderStatusPort);
+                orderStatusPort, committedOrderEventSrc);
     }
 
     @Test

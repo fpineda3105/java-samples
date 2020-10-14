@@ -15,9 +15,7 @@ import com.fpineda.samples.choreographypattern.core.ports.CommitProductStockPort
 import com.fpineda.samples.choreographypattern.core.ports.FetchProductPort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class ProductPersistenceAdapter implements CommitProductStockPort, FetchProductPort {
 
     private final JdbcTemplate jdbcTemplate;
