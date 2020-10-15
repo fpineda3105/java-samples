@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import com.fpineda.samples.choreographypattern.adapter.persistence.OrderPersistenceAdapter;
 import com.fpineda.samples.choreographypattern.config.DatabaseInMemoryConfig;
 import com.fpineda.samples.choreographypattern.core.command.PlaceOrderCommand;
+import com.fpineda.samples.choreographypattern.core.event.EventSource;
 import com.fpineda.samples.choreographypattern.core.event.PlaceOrderEventSourced;
 import com.fpineda.samples.choreographypattern.core.model.Order;
 import com.fpineda.samples.choreographypattern.core.ports.PlaceOrderPort;
@@ -35,7 +36,7 @@ class PlaceOrderServiceTest {
     private PlaceOrderUseCase placeOrderUseCase;
     private PlaceOrderPort port;
 
-    private PlaceOrderEventSourced eventSourcedSpy;
+    private EventSource<Order> eventSourcedSpy;
 
     @Autowired
     private DataSource datasource;
@@ -43,7 +44,7 @@ class PlaceOrderServiceTest {
     @BeforeEach
     public void reset() {        
         EventBus eventBus = new EventBus();
-        PlaceOrderEventSourced eventsourced = new PlaceOrderEventSourced(eventBus);
+        EventSource<Order> eventsourced = new PlaceOrderEventSourced(eventBus);
         eventSourcedSpy = spy(eventsourced);
         port = new OrderPersistenceAdapter(datasource);
         placeOrderUseCase = new PlaceOrderService(eventSourcedSpy, port);
@@ -58,7 +59,7 @@ class PlaceOrderServiceTest {
         Order result = placeOrderUseCase.placeOrder(command);
 
         Assertions.assertNotNull(result);
-        verify(eventSourcedSpy, times(1)).publish(result.getId());
+        verify(eventSourcedSpy, times(1)).emit(result);
 
     }
 

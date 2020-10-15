@@ -8,21 +8,23 @@
 package com.fpineda.samples.choreographypattern.core.event;
 
 import java.util.concurrent.CompletableFuture;
+import com.fpineda.samples.choreographypattern.core.model.Order;
 import com.google.common.eventbus.EventBus;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @AllArgsConstructor
-public class CommitOrderEventsourced {
+public class CommitOrderEventsourced implements EventSource<Order> {
     
     private final EventBus eventBus;
 
-    public CompletableFuture<Void> publish(long orderId) {
+    @Override
+    public CompletableFuture<Void> emit(final Order order) {
         return CompletableFuture.runAsync(() -> {
-            CommittedOrderEvent event = new CommittedOrderEvent(orderId);
+            CommittedOrderEvent event = new CommittedOrderEvent(order.getId());
             eventBus.post(event);
-            log.info("Published CommittedOrderEvent id: {} ", orderId);
-        });                
+            log.info("Published CommittedOrderEvent id: {} ", order.getId());
+        }); 
     }
 }

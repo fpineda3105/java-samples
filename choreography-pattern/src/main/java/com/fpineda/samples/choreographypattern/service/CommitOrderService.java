@@ -3,7 +3,7 @@ package com.fpineda.samples.choreographypattern.service;
 import com.fpineda.samples.choreographypattern.core.model.Order;
 import com.fpineda.samples.choreographypattern.core.model.OrderStatus;
 import static com.fpineda.samples.choreographypattern.core.model.OrderStatus.COMMITTED;
-import com.fpineda.samples.choreographypattern.core.event.CommitOrderEventsourced;
+import com.fpineda.samples.choreographypattern.core.event.EventSource;
 import com.fpineda.samples.choreographypattern.core.model.Product;
 import com.fpineda.samples.choreographypattern.core.ports.CommitProductStockPort;
 import com.fpineda.samples.choreographypattern.core.ports.FetchOrderPort;
@@ -19,7 +19,7 @@ public class CommitOrderService implements CommitOrderUseCase {
     private final CommitProductStockPort commitProductPort;
     private final FetchProductPort fetchProductPort;
     private final UpdateOrderStatusPort updateOrderPort;
-    private final CommitOrderEventsourced committedOrderEventSrc;
+    private final EventSource<Order> committedOrderEventSrc;
 
     @Override
     public Order commitOrder(long orderId) {
@@ -31,7 +31,7 @@ public class CommitOrderService implements CommitOrderUseCase {
             updateOrderStatus(order.getId(), COMMITTED);
             order.setStatus(COMMITTED);
         }
-        committedOrderEventSrc.publish(orderId).thenAccept(ignored -> {});
+        committedOrderEventSrc.emit(order).thenAccept(ignored -> {});
         return order;
     }
 
