@@ -8,7 +8,7 @@
 package com.fpineda.samples.choreographypattern.service;
 
 import com.fpineda.samples.choreographypattern.core.command.PlaceOrderCommand;
-import com.fpineda.samples.choreographypattern.core.event.PlaceOrderEventSourced;
+import com.fpineda.samples.choreographypattern.core.event.EventSource;
 import com.fpineda.samples.choreographypattern.core.model.Order;
 import com.fpineda.samples.choreographypattern.core.ports.PlaceOrderPort;
 import com.fpineda.samples.choreographypattern.core.usecase.PlaceOrderUseCase;
@@ -17,14 +17,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PlaceOrderService implements PlaceOrderUseCase {
 
-    private final PlaceOrderEventSourced placeOrderEventSourced;
+    private final EventSource<Order> placeOrderEventSourced;
     private final PlaceOrderPort port;    
 
     @Override
     public Order placeOrder(PlaceOrderCommand command) {
         Order result = port.placeOrder(command);
 
-        placeOrderEventSourced.publish(result.getId()).thenAccept(ignored -> {});
+        placeOrderEventSourced.emit(result).thenAccept(ignored -> {});
     
         return result;
     }    
