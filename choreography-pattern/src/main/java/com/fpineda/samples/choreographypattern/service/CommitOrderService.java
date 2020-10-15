@@ -3,7 +3,6 @@ package com.fpineda.samples.choreographypattern.service;
 import com.fpineda.samples.choreographypattern.core.model.Order;
 import com.fpineda.samples.choreographypattern.core.model.OrderStatus;
 import static com.fpineda.samples.choreographypattern.core.model.OrderStatus.COMMITTED;
-import com.fpineda.samples.choreographypattern.core.event.CommitOrderEventsourced;
 import com.fpineda.samples.choreographypattern.core.event.EventSource;
 import com.fpineda.samples.choreographypattern.core.model.Product;
 import com.fpineda.samples.choreographypattern.core.ports.CommitProductStockPort;
