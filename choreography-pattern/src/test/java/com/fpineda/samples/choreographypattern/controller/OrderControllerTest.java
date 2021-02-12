@@ -95,8 +95,6 @@ class OrderControllerTest {
 
     }
 
-
-
     static String asJsonString(Object obj) {
         try {
             return mapper.writeValueAsString(obj);
