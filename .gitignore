@@ -34,5 +34,5 @@ HELP.md
 .vscode/
 
 ## Java Projects
-csv-file-parsig/src/main/resources/Crimes_-_2001_to_Present.csv
-csv-file-parsig/Crimes_-_2020_to_Present.csv
+/csv-file-parsing/src/main/resources/Crimes_-_2001_to_Present.csv
+/csv-file-parsing/Crimes_-_2020_to_Present.csv
